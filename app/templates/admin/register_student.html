@@ -1,0 +1,267 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+<div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Skillup 24
+                                                Academy</a></li>
+                                        <li class="breadcrumb-item active">Register Student</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Register New Student</h4>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form method="post" action="#">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="first_name" class="form-label">First Name<span
+                                                            class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="first_name"
+                                                        name="first_name" placeholder="First Name" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="first_nameError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="middle_name" class="form-label">Middle Name<span
+                                                            class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="middle_name"
+                                                        name="middle_name" placeholder="Middle Name" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="middle_nameError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="last_name" class="form-label">Last Name<span
+                                                            class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="last_name"
+                                                        name="last_name" placeholder="Last Name" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="last_nameError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="type_email" class="form-label">Email address<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="email" id="type_email" class="form-control"
+                                                        name="email" placeholder="Email Address" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="emailError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="password" class="form-label">Password<span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group input-group-merge">
+                                                        <input type="password" id="password" class="form-control"
+                                                            name="password" placeholder="Password" required>
+                                                        <div class="input-group-text" data-password="false">
+                                                            <span class="password-eye"></span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="passwordError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="confirm_password" class="form-label">Confirm
+                                                        Password<span class="text-danger">*</span></label>
+                                                    <div class="input-group input-group-merge">
+                                                        <input type="password" id="confirm_password"
+                                                            class="form-control" name="confirm_password" placeholder="COnfirm Password" required>
+                                                        <div class="input-group-text" data-password="false">
+                                                            <span class="password-eye"></span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="confirm_passwordError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="phone_number" class="form-label">Phone Number<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" id="phone_number" name="phone_number"
+                                                        class="form-control" placeholder="Phone Number" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="phone_numberError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="gender" class="form-label">Gender<span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-select" id="gender" name="gender" required>
+                                                        <option value="">Choose your gender</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="genderError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="date_of_birth" class="form-label">Date of Birth</label>
+                                                    <input class="form-control" id="date_of_birth" type="date"
+                                                        name="date_of_birth" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="date_of_birthError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="address" class="form-label">Address</label>
+                                                    <input class="form-control" type="text" id="address" name="address" placeholder="Address">
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="addressError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="martial" class="form-label">Martial Status<span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-select" id="martial" name="martial" required>
+                                                        <option value="">Select option</option>
+                                                        <option value="single">Single</option>
+                                                        <option value="married">Married</option>
+                                                    </select>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="martialError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="martial" class="form-label">Nationality<span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-select" id="nationality" name="nationality" required>
+                                                        <option value="">Select option</option>
+                                                        <option value="somalia">Somalia</option>
+                                                        <option value="kenya">Kenya</option>
+                                                    </select>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="nationalityError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="placeOfBirth" class="form-label">Place Of Birth</label>
+                                                    <input class="form-control" type="text" id="placeOfBirth" name="placeOfBirth" placeholder="Place Of Birth">
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="placeOfBirthError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="occupation" class="form-label">Occupation Status<span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-select" id="occupation" name="martial" required>
+                                                        <option value="">Select option</option>
+                                                        <option value="student">Student</option>
+                                                        <option value="employee">Employee</option>
+                                                        <option value="job-less">Job-less</option>
+                                                    </select>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="occupationError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="bloodGroup" class="form-label">Blood Group<span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-select" id="bloodGroup" name="bloodGroup" required>
+                                                        <option value="">Select option</option>
+                                                        <option value="O+">O+</option>
+                                                        <option value="O+">O-</option>
+                                                        <option value="O+">A+</option>
+                                                        <option value="O+">A-</option>
+                                                        <option value="O+">B+</option>
+                                                        <option value="O+">B-</option>
+                                                        <option value="O+">AB+</option>
+                                                        <option value="O+">AB-</option>
+                                                    </select>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="bloodGroupError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="mother_name" class="form-label">Mother Name<span
+                                                            class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="mother_name"
+                                                        name="mother_name" placeholder="Mother Name" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="mother_nameError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="mother_name" class="form-label">Mother Phone<span
+                                                            class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="mother_phone"
+                                                        name="mother_name" placeholder="Mother Phone" required>
+                                                    <!-- Custom error message -->
+                                                    <div class="error-message text-danger" id="mother_phoneError"
+                                                        style="display: none; margin-top: 0.25rem;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-4">
+                                            <div class="col-sm-12">
+                                                <div class="text-sm-end">
+                                                    <button class="btn btn-primary btn-with-spinner" type="submit">
+                                                        <span class="spinner-border spinner-border-sm d-none"
+                                                            role="status" aria-hidden="true"></span>
+                                                        <span class="button-text">Submit</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+{% endblock %}
