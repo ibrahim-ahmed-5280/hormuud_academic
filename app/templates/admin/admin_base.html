@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skillup24Academy</title>
+    <title>Academic Admission</title>
     <meta content="Skillup 24" name="author" />
 
     <!-- App favicon -->
@@ -58,7 +58,7 @@
         <div class="leftside-menu">
 
             <!-- LOGO -->
-            <a href="index.html" class="logo text-center logo-light">
+            <a href="{{url_for('admin_dashboard_page')}}" class="logo text-center logo-light">
                 <span class="logo-lg">
                     <img src="assets/images/logo.png" alt="" height="40">
                 </span>
@@ -68,7 +68,7 @@
             </a>
 
             <!-- LOGO -->
-            <a href="index.html" class="logo text-center logo-dark">
+            <a href="{{url_for('admin_dashboard_page')}}" class="logo text-center logo-dark">
                 <span class="logo-lg">
                     <img src="assets/images/dark_logo.png" alt="" height="40">
                 </span>
@@ -84,11 +84,11 @@
 
                     <li class="side-nav-title side-nav-item"></li>
                     <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="index.html" aria-expanded="false" aria-controls="index.html"
-                            class="side-nav-link">
+                        <a href="{{ url_for('admin_dashboard_page') }}" class="side-nav-link">
                             <i class="uil-home-alt"></i>
                             <span> Dashboards </span>
                         </a>
+                        
                     </li>
 
 
@@ -345,15 +345,8 @@
                 <footer class="footer">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-6">
-                                <script>document.write(new Date().getFullYear())</script> © Skillup24academy
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-md-end footer-links d-none d-md-block">
-                                    <a href="javascript: void(0);">About</a>
-                                    <a href="javascript: void(0);">Support</a>
-                                    <a href="javascript: void(0);">Contact Us</a>
-                                </div>
+                            <div class="col-12">
+                                <script>document.write(new Date().getFullYear())</script> © AcademicAdmission
                             </div>
                         </div>
                     </div>
@@ -473,136 +466,135 @@
         <div class="rightbar-overlay"></div>
 
     </div>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Revenue Over Time (Line Chart)
-                var ctxRevenue = document.getElementById('revenueChart').getContext('2d');
-                var revenueChart = new Chart(ctxRevenue, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                        datasets: [{
-                            label: 'Revenue',
-                            data: [0, 20, 40, 60, 80, 100, 120],
-                            fill: false,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            tension: 0.4,
-                            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                            pointBorderColor: 'rgba(75, 192, 192, 1)',
-                            pointHoverBackgroundColor: 'rgba(75, 192, 192, 1)',
-                            pointHoverBorderColor: 'rgba(75, 192, 192, 1)'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Revenue Over Time (Line Chart)
+            var ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            var revenueChart = new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [0, 20, 40, 60, 80, 100, 120],
+                        fill: false,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                        pointBorderColor: 'rgba(75, 192, 192, 1)',
+                        pointHoverBackgroundColor: 'rgba(75, 192, 192, 1)',
+                        pointHoverBorderColor: 'rgba(75, 192, 192, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
-                });
-
-                // Enrollment by Category (Donut Chart)
-                var ctxEnrollment = document.getElementById('enrollmentChart').getContext('2d');
-                var enrollmentChart = new Chart(ctxEnrollment, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Web Development', 'Mobile Development', 'Data Science', 'Design', 'Marketing'],
-                        datasets: [{
-                            label: 'Enrollments',
-                            data: [300, 50, 100, 40, 120],
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                        }
-                    }
-                });
-
-                // Top 5 Courses by Enrollment (Bar Chart)
-                var ctxTopCourses = document.getElementById('topCoursesChart').getContext('2d');
-                var topCoursesChart = new Chart(ctxTopCourses, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'],
-                        datasets: [{
-                            label: 'Enrollments',
-                            data: [100, 200, 300, 400, 500],
-                            backgroundColor: 'rgba(153, 102, 255, 1)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
+                }
             });
-        </script>
 
-        <!-- bundle -->
-        <script src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/app.min.js"></script>
+            // Enrollment by Category (Donut Chart)
+            var ctxEnrollment = document.getElementById('enrollmentChart').getContext('2d');
+            var enrollmentChart = new Chart(ctxEnrollment, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Web Development', 'Mobile Development', 'Data Science', 'Design', 'Marketing'],
+                    datasets: [{
+                        label: 'Enrollments',
+                        data: [300, 50, 100, 40, 120],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    }
+                }
+            });
 
-        <!-- third party js -->
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/jquery.dataTables.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.bootstrap5.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.responsive.min.js' %}"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/responsive.bootstrap5.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.buttons.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.bootstrap5.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.html5.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.flash.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.print.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.keyTable.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.select.min.js"></script>
-        <!-- third party js ends -->
+            // Top 5 Courses by Enrollment (Bar Chart)
+            var ctxTopCourses = document.getElementById('topCoursesChart').getContext('2d');
+            var topCoursesChart = new Chart(ctxTopCourses, {
+                type: 'bar',
+                data: {
+                    labels: ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'],
+                    datasets: [{
+                        label: 'Enrollments',
+                        data: [100, 200, 300, 400, 500],
+                        backgroundColor: 'rgba(153, 102, 255, 1)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 
-        <!-- demo app -->
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.customers.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.dashboard-crm.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.form-wizard.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.dashboard.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.datatable-init.js"></script>
+    <!-- bundle -->
+    <script src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/app.min.js"></script>
 
-        <!-- Todo js -->
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/ui/component.todo.js"></script>
+    <!-- third party js -->
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/jquery.dataTables.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.bootstrap5.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.responsive.min.js' %}"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/responsive.bootstrap5.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.buttons.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.bootstrap5.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.html5.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.flash.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/buttons.print.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.keyTable.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/dataTables.select.min.js"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.customers.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.dashboard-crm.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.form-wizard.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.dashboard.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/pages/demo.datatable-init.js"></script>
+
+    <!-- Todo js -->
+    <script src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/ui/component.todo.js"></script>
 
 
 
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/apexcharts.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/apexcharts.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/Gaabshiine/skillup24cdn/admin_page_app/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
 </body>
 
 </html>

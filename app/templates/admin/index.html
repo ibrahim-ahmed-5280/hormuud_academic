@@ -1,0 +1,185 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Academic Admission</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Dashboard</h4>
+        </div>
+    </div>
+</div>
+<!-- Demo data Start -->
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="mdi mdi-account-multiple widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Registered Students">Total Students</h5>
+                <h3 class="mt-3 mb-3">{{ student_counts.total_students }}</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i>100%</span>
+
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="mdi mdi-teach widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Registered Instructors">Registered
+                    Instructors</h5>
+                <h3 class="mt-3 mb-3">88</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i>88%</span>
+
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="mdi mdi-book-multiple widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Total Courses">Total Graduates</h5>
+                <h3 class="mt-3 mb-3">{{student_counts.graduated_students}}</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i>100%</span>
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="uil-book-open widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Total Categories">Total Categories</h5>
+                <h3 class="mt-3 mb-3">54</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 23%</span>
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="uil-dollar-sign widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Revenue">Total Revenue</h5>
+                <h3 class="mt-3 mb-3">$67</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i>87%</span>
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="mdi mdi-school widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Total Enrollments">Total Enrollments
+                </h5>
+                <h3 class="mt-3 mb-3">90</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i>76%</span>
+
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card widget-flat">
+            <div class="card-body">
+                <div class="float-end">
+                    <i class="uil-clock widget-icon"></i>
+                </div>
+                <h5 class="text-muted fw-normal mt-0" title="Pending Payments">Pending Payments</h5>
+                <h3 class="mt-3 mb-3">99</h3>
+                <p class="mb-0 text-muted">
+
+                    <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 65%</span>
+
+                    <span class="text-nowrap">Since last month</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Demo data End -->
+
+
+<!-- charts Start -->
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="row mt-4">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Revenue Over Time</h4>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Enrollment by Category</h4>
+                        <canvas id="enrollmentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Top 5 Courses by Enrollment</h4>
+                        <canvas id="topCoursesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div> <!-- end col -->
+</div>
+
+{% endblock %}

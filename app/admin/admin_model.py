@@ -1,0 +1,156 @@
+import mysql.connector
+from app.configuration import AdminDbConfiguration
+from mysql.connector import Error, IntegrityError
+from app import app
+import datetime
+
+class AdminDatabase:
+    def __init__(self, host, port, user, password, database):
+        self.host = host
+        self.port = port
+        self.user = user
+        self.password = password
+        self.database = database
+
+    def make_connection(self):
+        try:
+            self.connection = mysql.connector.connect(
+                host=self.host,
+                port=self.port,
+                user=self.user,
+                password=self.password,
+                database=self.database,
+            )
+            self.cursor = self.connection.cursor()
+        except Exception as e:
+            print(e)
+
+    def my_cursor(self):
+        return self.cursor
+
+
+class AdminModel:
+    def __init__(self, connection):
+        try:
+            self.connection = connection
+            self.cursor = connection.cursor()
+        except Exception as err:
+            print('Something went wrong! Internet connection or database connection. (Admin DB)')
+            print(f'Error: {err}')
+
+    def count_students(self):
+        sql_total = "SELECT COUNT(*) FROM student;"
+        sql_graduated = "SELECT COUNT(*) FROM student WHERE status = 'Graduated';"
+
+        try:
+            self.cursor.execute(sql_total)
+            total_students = self.cursor.fetchone()[0]
+
+            self.cursor.execute(sql_graduated)
+            graduated_students = self.cursor.fetchone()[0]
+
+            return {"total_students": total_students, "graduated_students": graduated_students}
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return {"error": str(e)}
+
+    def save_student_registration(self, student_data):
+        sql = """
+        INSERT INTO student (
+            f_name, s_name, l_name, email, password, phone, sex, 
+            date_of_birth, address, marital_status, nationality, 
+            place_of_birth, academic_year, Academic_degree, 
+            occupation_status, blood_group, mother_name, mother_phone, 
+            intake, shift_type
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, 
+            %s, %s, %s, %s, 
+            %s, %s, %s, 
+            %s, %s, %s, %s, 
+            %s, %s
+        )
+        """
+
+        try:
+            # Extract values from student_data dictionary
+            values = (
+                student_data.get('personal_info')['first_name'],
+                student_data.get('personal_info').get('middle_name', ''),  # Middle name is optional
+                student_data.get('personal_info')['last_name'],
+                student_data.get('personal_info')['email'],
+                student_data.get('personal_info').get('password', '0000'),  # Default password
+                student_data.get('personal_info')['phone_number'],
+                student_data.get('personal_info')['gender'],
+                student_data.get('personal_info').get('date_of_birth'),
+                student_data.get('personal_info').get('address'),
+                student_data.get('personal_info').get('marital_status'),
+                student_data.get('personal_info')['nationality'],
+                student_data.get('personal_info')['place_of_birth'],
+                student_data.get('academic_info')['academic_year'],
+                student_data.get('academic_info')['academic_degree'],
+                student_data.get('personal_info')['occupation'],
+                student_data.get('personal_info').get('blood_group'),
+                student_data.get('family_info')['mother_name'],
+                student_data.get('family_info')['mother_phone'],
+                student_data.get('academic_info')['intake'],
+                student_data.get('academic_info').get('shift_type')
+            )
+
+            self.cursor.execute(sql, values)
+            self.connection.commit()
+
+            student_id = self.cursor.lastrowid
+            print(f'Diwaangalinta ardayga aqoonsigiisu yahay {student_id} ayaa lagu guuleystay')
+            return True, f'Diwaangalinta ardayga ayaa lagu guuleystay. Aqoonsi: {student_id}'
+
+        except Exception as e:
+            print('Khalad ayaa dhacay markii lagu diwaangalinayay ardayga')
+            print(f'Error: {e}')
+            self.connection.rollback()
+
+            # Handle duplicate email error specifically
+            if "Duplicate entry" in str(e) and "email" in str(e):
+                return False, 'Email-kan hore ayaa loo diwaangalinay'
+
+            return False, f'Khalad ayaa dhacay: {str(e)}'
+
+    def get_all_student_data(self):
+        sql = """
+                SELECT * FROM student;
+              """
+        try:
+            self.cursor.execute(sql)
+            result = self.cursor.fetchall()
+            if result:
+                print('Waa la helay ardayda.')
+                result = [dict(zip([key[0] for key in self.cursor.description], row)) for row in result]
+
+                return True, result
+            else:
+                print('Lama helin wax arday ah.')
+                return False, {}
+        except Exception as e:
+            print(f'Error: {e}')
+            return False, f'Error {e}.'
+
+admin_db_configuration = AdminDbConfiguration()
+
+
+def check_admin_model_connection():
+    try:
+        mysql_connect = AdminDatabase(
+            host=admin_db_configuration.DB_HOSTNAME,
+            port=3306,
+            user=admin_db_configuration.DB_USERNAME,
+            password=admin_db_configuration.DB_PASSWORD,
+            database=admin_db_configuration.DB_NAME
+        )
+        # Create an instance of the Store class
+        mysql_connect.make_connection()
+        my_admin_model = AdminModel(mysql_connect.connection)
+
+        return True, my_admin_model
+    except Exception as e:
+        print(f'')
+        return False, f'Error: {e}.'
