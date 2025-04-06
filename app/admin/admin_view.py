@@ -19,7 +19,76 @@ def register_student_page():
 
 @app.route('/classes')
 def classes():
-    return render_template('admin/classes.html')
+    # Initialize AdminModel with the existing DB connection
+    print('Connecting to the database...')
+    connection_status, admin_model = check_admin_model_connection()
+    if connection_status:
+        classes_data = admin_model.get_all_classes()  # Fetch all faculties
+        departments_data = admin_model.get_all_department() 
+        print(departments_data)
+    return render_template('admin/classes.html' , 
+                           departments_data=departments_data,
+                           classes_data=classes_data)
+
+@app.route('/register_classes', methods=['POST'])
+def register_classes():
+    if not request.is_json:
+        return jsonify({
+            'status': 'error',
+            'message': 'Request must be JSON',
+            'errors': {'format': 'Invalid content type'}
+        }), 400
+
+    try:
+        data = request.get_json()
+        print('Received Classes form data:', data)
+
+        # Connect to the DB using your existing pattern
+        print('Connecting to the database...')
+        connection_status, admin_model = check_admin_model_connection()
+
+        if connection_status:
+            try:
+                query = """
+                    INSERT INTO classes (department_id,class_name,fee_amount, remark)
+                    VALUES (%s, %s,%s,%s)
+                """
+                values = (
+                    data.get('departmentType'),
+                    data.get('class_name'),
+                    data.get('feeAmount'),
+                    data.get('remark')
+                )
+                admin_model.cursor.execute(query, values)
+                admin_model.connection.commit()
+
+                return jsonify({
+                    'status': 'success',
+                    'message': 'Faculty registered successfully',
+                    'data': data
+                }), 200
+            except Exception as db_err:
+                admin_model.connection.rollback()
+                print('Database insert error:', str(db_err))
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Failed to insert into database',
+                    'error': str(db_err)
+                }), 500
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': 'Database connection failed'
+            }), 500
+
+    except Exception as e:
+        print('Server error:', str(e))
+        return jsonify({
+            'status': 'error',
+            'message': 'Server processing error',
+            'error': str(e)
+        }), 500
+
 
 @app.route('/faculties')
 def faculties():

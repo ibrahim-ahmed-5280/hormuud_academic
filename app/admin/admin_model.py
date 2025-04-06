@@ -81,6 +81,20 @@ class AdminModel:
             print('Error fetching department_faculty.')
             print(f'Error: {err}')
             return []
+    # Function to fetch all classes data from the database
+    def get_all_classes(self):
+        try:
+            # SQL query to fetch all faculty data
+            query = "SELECT * FROM classes" 
+            self.cursor.execute(query)  # Execute the query
+            result = self.cursor.fetchall()  # Fetch all results
+            
+            # Return the result
+            return result
+        except Exception as err:
+            print('Error fetching classes.')
+            print(f'Error: {err}')
+            return []
     # END OF GARSAME
 
     def count_students(self):
