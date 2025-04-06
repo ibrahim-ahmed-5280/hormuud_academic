@@ -38,6 +38,51 @@ class AdminModel:
             print('Something went wrong! Internet connection or database connection. (Admin DB)')
             print(f'Error: {err}')
 
+    # Garsame added this
+    def save_faculty_registration(self,):
+        try:
+            query = """
+                INSERT INTO faculty (facultyname, remark)
+                VALUES (%s, %s)
+            """
+            self.cursor.execute(query,)
+            self.connection.commit()
+            return True, 'Faculty registration successful'
+        except Exception as e:
+            self.connection.rollback()
+            print('Database insert error:', str(e))
+            return False, str(e)
+        
+    # Function to fetch all faculties from the database
+    def get_all_faculties(self):
+        try:
+            # SQL query to fetch all faculty data
+            query = "SELECT * FROM faculty" 
+            self.cursor.execute(query)  # Execute the query
+            result = self.cursor.fetchall()  # Fetch all results
+            
+            # Return the result
+            return result
+        except Exception as err:
+            print('Error fetching faculties.')
+            print(f'Error: {err}')
+            return []
+    # Function to fetch all Department data from the database
+    def get_all_department(self):
+        try:
+            # SQL query to fetch all faculty data
+            query = "SELECT * FROM department_faculty" 
+            self.cursor.execute(query)  # Execute the query
+            result = self.cursor.fetchall()  # Fetch all results
+            
+            # Return the result
+            return result
+        except Exception as err:
+            print('Error fetching department_faculty.')
+            print(f'Error: {err}')
+            return []
+    # END OF GARSAME
+
     def count_students(self):
         sql_total = "SELECT COUNT(*) FROM student;"
         sql_graduated = "SELECT COUNT(*) FROM student WHERE status = 'Graduated';"
