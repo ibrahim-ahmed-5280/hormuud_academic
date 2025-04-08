@@ -3,6 +3,45 @@ from flask import render_template, request, make_response, jsonify, session, red
 import re
 from app.admin.admin_model import AdminModel, AdminDatabase, check_admin_model_connection
 from datetime import datetime
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
+
+@app.route('/')
+def signin_page():
+    return render_template('admin/signin.html')
+
+@app.route('/admin_login',methods=['POST'])
+def admin_login():
+    data = request.get_json()
+
+    email = data.get('email', '').strip()
+    password = data.get('password', '').strip()
+
+    # Initialize response
+    response = {'error': '','message': ''}
+
+    # Validate Email and Password
+    if not email:
+        response['error'] = 'invalid_email'
+        response['message']='Please enter an email.'
+        return jsonify(response)
+
+
+    if not password:
+        response['error'] = 'invalid_password'
+        response['message'] = 'Please enter password.'
+        return jsonify(response)
+    connection_status, admin_model = check_admin_model_connection()
+    if connection_status:
+        flag, result = admin_model.check_admin_login(email,password)
+        if flag:
+            print('hello')
+            return jsonify({'success': True})
+        return jsonify({'error': True,'message':'Email or password is incorrect.'})
+
+
+    return "Database connection failed."
+
 @app.route('/dashboard_page')
 def admin_dashboard_page():
     connection_status, admin_model = check_admin_model_connection()
@@ -170,14 +209,12 @@ def departments():
     connection_status, admin_model = check_admin_model_connection()
     if connection_status:
         faculties_data = admin_model.get_all_faculties()  # Fetch all faculties
-        departments_data = admin_model.get_all_department() 
+        departments_data = admin_model.get_all_department()
         print(departments_data)
         
     return render_template('admin/departments.html', faculties_data= faculties_data,
-                           departments_data=departments_data)
+                           departments_data= departments_data)
 
-
-from flask import request, jsonify
 
 @app.route('/register_departments', methods=['POST'])
 def register_departments():
@@ -255,8 +292,11 @@ def view_student_page():
     if connection_status:
         flag,students_data = admin_model.get_all_student_data()
         print(students_data[0])
+        flag,classes = admin_model.get_all_classes()
+        print(classes[0])
         return render_template('admin/view_student.html',
-                               students = students_data)
+                               students = students_data,
+                               classes = classes)
     return "Database connection is not available or email is not set in the session."
 
 def validate_email(email):
@@ -288,7 +328,7 @@ def validate_date_of_birth(dob):
 
 
 @app.route('/api/register', methods=['POST'])
-def register():
+def register_student():
     # First check if data exists and is in correct format
     if not request.is_json:
         return jsonify({
@@ -373,3 +413,79 @@ def register():
             'message': 'Server processing error',
             'error': str(e)
         }), 500
+
+@app.route('/change_student_status', methods = ['POST'])
+def change_student_status():
+    data = request.get_json()
+    print(data)
+    status = data.get('data').get('status')
+    allowed_status = ['Active', 'Inactive', 'Graduated', 'Suspended']
+
+    # Check if status is valid
+    if not status or status not in allowed_status:
+        return jsonify({'success': False, 'message': 'Invalid status selected!'}), 400
+
+    print('Connecting to the database...')
+    connection_status, admin_model = check_admin_model_connection()
+    if connection_status:
+        flag = admin_model.change_student_status(status,data.get('data').get('student_id'))
+        if flag:
+            return jsonify({'success': True, 'message': 'Changes status.'}), 400
+        return jsonify({'success': True, 'message': 'Changes status.'}), 400
+    return "Database connection is not available or email is not set in the session."
+
+@app.route('/change_class',methods=['POST'])
+def change_class():
+    data = request.get_json()
+    print(data)
+    # Check if status is valid
+    if not data.get('class_name'):
+        return jsonify({'success': False, 'message': 'Invalid status selected!'}), 400
+    print('Connecting to the database...')
+    connection_status, admin_model = check_admin_model_connection()
+    if connection_status:
+        flag = admin_model.change_student_class(data.get('class_name'), data.get('student_id'))
+        if flag:
+            print(flag)
+            return jsonify({'success': True, 'message': 'Changes class.'}), 400
+        return jsonify({'success': False, 'message': 'Not change class.'}), 400
+    return "Database connection is not available or email is not set in the session."
+
+
+@app.route('/change_password', methods=['POST'])
+def change_password_user():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'success': False, 'message': 'No data received', 'field': 'general'}), 400
+
+        # Validate input
+        new_password = data.get('new_password')
+        confirm_password = data.get('confirm_password')
+        student_id = data.get('student_id')
+
+        if not new_password:
+            return jsonify({'success': False, 'message': 'New password is required', 'field': 'new'}), 400
+        if not confirm_password:
+            return jsonify({'success': False, 'message': 'Confirm password is required', 'field': 'confirm'}), 400
+        if not student_id:
+            return jsonify({'success': False, 'message': 'Student ID is required', 'field': 'general'}), 400
+        if new_password != confirm_password:
+            return jsonify({'success': False, 'message': 'Passwords do not match', 'field': 'confirm'}), 400
+
+        # Database operations
+        connection_status, admin_model = check_admin_model_connection()
+        if not connection_status:
+            return jsonify({'success': False, 'message': 'Database connection failed', 'field': 'general'}), 500
+
+        # Change password
+        hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        success = admin_model.change_student_password(hashed_password, student_id)
+        if success:
+            return jsonify({'success': True, 'message': 'Password changed successfully'}), 200
+        else:
+            return jsonify({'success': False, 'message': 'Failed to change password', 'field': 'general'}), 400
+
+    except Exception as e:
+        print(f"Error in change_password_user: {str(e)}")
+        return jsonify({'success': False, 'message': 'An error occurred', 'field': 'general'}), 500

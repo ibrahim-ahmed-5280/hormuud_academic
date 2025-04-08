@@ -1,0 +1,17 @@
+.bg-white-md-light {
+    background-color: white;
+}
+
+@media (min-width: 768px) {
+    .bg-white-md-light {
+        background-color: #e9eaeb;
+        /* Bootstrap light color */
+    }
+}
+.form-control:focus,.btn:focus{
+    border: 1px solid #dadbdb !important;
+}
+
+input:disabled{
+    background-color: white !important;
+}
