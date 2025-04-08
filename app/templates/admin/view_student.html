@@ -44,8 +44,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% if students%}
-                            {%for student in students%}
+                            {% if students %}
+                            {% for student in students %}
                             <tr id="student-row-{{ student.student_id }}">
                                 <td>HU000{{ student.student_id }}</td>
                                 <td class="table-user">
@@ -57,97 +57,156 @@
                                 <td>{{ student.date_of_birth }}</td>
                                 <td>{{ student.mother_phone }}</td>
                                 <td class="d-flex">
-                                    <div class="dropdown dropstart">
+                                    <!-- View Dropdown -->
+                                    <div class="dropdown dropstart me-2">
                                         <a href="#" class="action-icon view-icon" data-bs-toggle="dropdown">
                                             <i class="mdi mdi-eye status-icon"></i>
                                         </a>
-                                        <ul class="dropdown-menu p-2 shadow" style="min-width: 220px;">
+                                        <ul class="dropdown-menu p-2 shadow" style="min-width: 220px;"
+                                            data-bs-auto-close="outside">
                                             <li>
-                                                <form>
+                                                <form onclick="event.stopPropagation()">
                                                     <h5>Change student status</h5>
-                                                    <select class="form-select">
-                                                        <option value="" selected disabled>Select Option</option>
+                                                    <div id="status_success_123" class="text-success mt-1 small"></div>
+                                                    <select class="form-select" id="select_status_123">
+                                                        <option value="" selected>Select Option</option>
                                                         <option value="Active">Active</option>
                                                         <option value="Inactive">Inactive</option>
                                                         <option value="Graduated">Graduated</option>
                                                         <option value="Suspended">Suspended</option>
                                                     </select>
+                                                    <div id="status_error_123" class="text-danger mt-1 small"></div>
                                                     <div class="mt-3 d-grid">
-                                                        <button type="button" class="btn btn-success rounded-3"
-                                                            id="saveStatusButton">
-                                                            <span class="spinner-border spinner-border-sm me-1"
-                                                                role="status" aria-hidden="true" id="spinner"
-                                                                style="display: none;"></span>
-                                                            Save
+                                                        <button class="btn btn-primary btn-with-spinner" type="button"
+                                                            onclick="submit_status_change('123', event)">
+                                                            <span class="spinner-border spinner-border-sm d-none"
+                                                                role="status" aria-hidden="true"></span>
+                                                            <span class="button-text">Submit</span>
                                                         </button>
                                                     </div>
                                                 </form>
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- Change Class Dropdown -->
                                     <div class="dropdown dropstart">
                                         <a href="#" class="action-icon update-icon" data-bs-toggle="dropdown">
                                             <i class="mdi mdi-square-edit-outline"></i>
                                         </a>
-                                        <ul class="dropdown-menu p-3" style="min-width: 250px;" data-bs-auto-close="outside">
-                                            <!-- Change Class Button -->
-                                            <li>
-                                                <button class="dropdown-item d-flex justify-content-between align-items-center toggle-btn" data-target="#changeClassForm">
-                                                    Change Class
-                                                    <i class="mdi mdi-chevron-down"></i>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <div id="changeClassForm" class="collapse">
-                                                    <form>
-                                                        <label class="form-label mt-2">Select Class</label>
-                                                        <select class="form-select">
-                                                            <option value="" disabled selected>Select Class</option>
-                                                            <option value="Class A">Class A</option>
-                                                            <option value="Class B">Class B</option>
-                                                            <option value="Class C">Class C</option>
-                                                        </select>
-                                                        <div class="d-grid mt-2">
-                                                            <button type="button" class="btn btn-success">Save</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </li>
-                                    
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                    
-                                            <!-- Change Password Button -->
-                                            <li>
-                                                <button class="dropdown-item d-flex justify-content-between align-items-center toggle-btn" data-target="#changePasswordForm">
-                                                    Change Password
-                                                    <i class="mdi mdi-chevron-down"></i>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <div id="changePasswordForm" class="collapse">
-                                                    <form>
-                                                        <label class="form-label mt-2">New Password</label>
-                                                        <input type="password" class="form-control" placeholder="Enter new password">
-                                                        
-                                                        <label class="form-label mt-2">Confirm Password</label>
-                                                        <input type="password" class="form-control" placeholder="Confirm password">
-                                                        
-                                                        <div class="d-grid mt-2">
-                                                            <button type="button" class="btn btn-success">Save</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </li>
+                                        <ul class="dropdown-menu p-3" style="min-width: 250px;"
+                                            data-bs-auto-close="outside">
+                                            <!-- Added a container div with ID for the accordion parent -->
+                                            <div id="accordionGroup_123">
+                                                <li>
+                                                    <button
+                                                        class="dropdown-item d-flex justify-content-between align-items-center toggle-btn"
+                                                        data-bs-toggle="collapse" data-bs-target="#changeClassForm_123"
+                                                        aria-expanded="false" aria-controls="changeClassForm_123"
+                                                        onclick="event.stopPropagation()">
+                                                        Change Class
+                                                        <i class="mdi mdi-chevron-down"></i>
+                                                    </button>
+                                                </li>
+
+                                                <li>
+                                                    <div id="changeClassForm_123" class="collapse"
+                                                        data-bs-parent="#accordionGroup_123">
+                                                        <form onclick="event.stopPropagation()">
+                                                            <div id="class_success_123"
+                                                                class="text-white mt-1 small bg-success p-2 rounded-2 fs-5"
+                                                                style="display: none;"></div>
+                                                            <label class="form-label mt-2">Select Class</label>
+                                                            <select id="select_class_123" class="form-select" required>
+                                                                {% if classes %}
+                                                                {% for class in classes %}
+                                                                <option value="{{ class.class_name }}" {% if
+                                                                    student.class_id==class.id %}selected{% endif %}>
+                                                                    {{ class.class_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                                {% endif %}
+                                                            </select>
+                                                            <div id="class_error_123" class="text-danger mt-1 small"
+                                                                style="display: none;"></div>
+                                                            <div class="d-grid mt-2">
+                                                                <button class="btn btn-primary btn-with-spinner"
+                                                                    type="button"
+                                                                    onclick="submit_class_change('123', event)">
+                                                                    <span
+                                                                        class="spinner-border spinner-border-sm d-none"
+                                                                        role="status" aria-hidden="true"></span>
+                                                                    <span class="button-text">Submit</span>
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+
+                                                <!-- Change Password Button -->
+                                                <li>
+                                                    <button
+                                                        class="dropdown-item d-flex justify-content-between align-items-center toggle-btn"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#changePasswordForm_123" aria-expanded="false"
+                                                        aria-controls="changePasswordForm_123"
+                                                        onclick="event.stopPropagation()">
+                                                        Change Password
+                                                        <i class="mdi mdi-chevron-down"></i>
+                                                    </button>
+                                                </li>
+
+                                                <li>
+                                                    <div id="changePasswordForm_123" class="collapse"
+                                                        data-bs-parent="#accordionGroup_123">
+                                                        <form onclick="event.stopPropagation()">
+                                                            <div id="password_success_{{ student.student_id }}"
+                                                                 class="text-white mt-1 small bg-success p-2 rounded-2 fs-5"
+                                                                 style="display: none;"></div>
+                                                            
+                                                            <label class="form-label mt-2" for="newPassword_{{ student.student_id }}">New Password</label>
+                                                            <input type="password" class="form-control"
+                                                                   placeholder="Enter new password" 
+                                                                   id="newPassword_{{ student.student_id }}">
+                                                            
+                                                            <div id="password_error_{{ student.student_id }}" 
+                                                                 class="text-danger mt-1 small"
+                                                                 style="display: none;"></div>
+                                                            
+                                                            <label class="form-label mt-2" for="confirmPassword_{{ student.student_id }}">Confirm Password</label>
+                                                            <input type="password" class="form-control"
+                                                                   placeholder="Confirm password" 
+                                                                   id="confirmPassword_{{ student.student_id }}">
+                                                            
+                                                            <div id="confirm_error_{{ student.student_id }}" 
+                                                                 class="text-danger mt-1 small"
+                                                                 style="display: none;"></div>
+                                                            
+                                                            <div class="d-grid mt-2">
+                                                                <button class="btn btn-primary btn-with-spinner"
+                                                                        type="button"
+                                                                        onclick="submit_password_change('{{ student.student_id }}', event)">
+                                                                    <span class="spinner-border spinner-border-sm d-none"
+                                                                          role="status" aria-hidden="true"></span>
+                                                                    <span class="button-text">Submit</span>
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </li>
+                                            </div>
                                         </ul>
                                     </div>
-
                                 </td>
-                            </tr>
 
-                            {%endfor%}
-                            {%endif%}
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+
 
                         </tbody>
 
@@ -157,22 +216,5 @@
         </div> <!-- end card-->
     </div> <!-- end col -->
 </div>
-<script>
-    document.querySelectorAll('.toggle-btn').forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.stopPropagation(); // Prevent dropdown from closing
-            
-            let target = document.querySelector(this.getAttribute('data-target'));
-            let allCollapses = document.querySelectorAll('.collapse');
-
-            allCollapses.forEach(collapse => {
-                if (collapse !== target) {
-                    collapse.classList.remove('show'); // Hide other sections
-                }
-            });
-
-            target.classList.toggle('show'); // Toggle the selected one
-        });
-    });
-</script>
+<script src="{{url_for('static', filename = 'js/admin/student_view.js')}}"></script>
 {% endblock %}

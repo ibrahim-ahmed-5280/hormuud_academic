@@ -83,21 +83,19 @@
                 <ul class="side-nav">
 
                     <li class="side-nav-title side-nav-item"></li>
+                
                     <li class="side-nav-item">
                         <a href="{{ url_for('admin_dashboard_page') }}" class="side-nav-link">
                             <i class="uil-home-alt"></i>
                             <span> Dashboards </span>
                         </a>
-                        
                     </li>
-
-
-
+                
                     <li class="side-nav-title side-nav-item">Apps</li>
-
+                
                     <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarOwners" aria-expanded="false"
-                            aria-controls="sidebarOwners" class="side-nav-link">
+                        <a data-bs-toggle="collapse" href="#sidebarOwners" aria-expanded="false" aria-controls="sidebarOwners"
+                            class="side-nav-link">
                             <i class="uil-user"></i>
                             <span> Students </span>
                             <span class="menu-arrow"></span>
@@ -110,30 +108,41 @@
                                 <li>
                                     <a href="{{ url_for('view_student_page') }}">View Students</a>
                                 </li>
-                                <li>
-                                    <a href="{{ url_for('classes') }}">Classes</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('faculties') }}">Faculties</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('departments') }}">Departments</a>
-                                </li>
                             </ul>
                         </div>
                     </li>
-
-
-
+                
+                    <li class="side-nav-item">
+                        <a href="{{ url_for('classes') }}" class="side-nav-link">
+                            <i class="uil-book-alt"></i>
+                            <span> Classes </span>
+                        </a>
+                    </li>
+                    
+                    <li class="side-nav-item">
+                        <a href="{{ url_for('faculties') }}" class="side-nav-link">
+                            <i class="uil-users-alt"></i>
+                            <span> Faculties </span>
+                        </a>
+                    </li>
+                    
+                    <li class="side-nav-item">
+                        <a href="{{ url_for('departments') }}" class="side-nav-link">
+                            <i class="uil-building"></i>
+                            <span> Departments </span>
+                        </a>
+                    </li>
+                    
+                
                     <li class="side-nav-item">
                         <a href="pages-logout.html" class="side-nav-link">
                             <i class="mdi mdi-logout me-1"></i>
                             <span> Logout </span>
                         </a>
                     </li>
-
-
+                
                 </ul>
+                
             </div>
             <!-- Sidebar -left -->
 

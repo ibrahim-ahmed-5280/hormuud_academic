@@ -179,6 +179,88 @@ class AdminModel:
             print(f'Error: {e}')
             return False, f'Error {e}.'
 
+    def get_all_classes(self):
+        sql = """
+                SELECT * from classes;;
+            """
+        try:
+            self.cursor.execute(sql)
+            result = self.cursor.fetchall()
+            if result:
+                print('Waa la helay classes-ka.')
+                result = [dict(zip([key[0] for key in self.cursor.description], row)) for row in result]
+
+                return True, result
+            else:
+                print('Lama helin wax class ah.')
+                return False, {}
+        except Exception as e:
+            print(f'Error: {e}')
+            return False, f'Error {e}.'
+
+    def change_student_status(self,status,student_id):
+        sql = """
+                UPDATE student 
+                SET status = %s 
+                WHERE student_id = %s;
+                """
+        try:
+            self.cursor.execute(sql, (status,student_id))
+            self.connection.commit()  # Commit the transaction
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+
+    def change_student_class(self, class_name, student_id):
+        # SQL query to get the class_id based on class_name
+        get_class_id_sql = """
+            SELECT id
+            FROM classes
+            WHERE class_name = %s;
+        """
+
+        # SQL query to update the student's class_id
+        update_student_sql = """
+            UPDATE student
+            SET class_id = %s
+            WHERE student_id = %s;
+        """
+
+        try:
+            # First, get the class_id based on the class_name
+            self.cursor.execute(get_class_id_sql, (class_name,))
+            result = self.cursor.fetchone()
+
+            if result:
+                class_id = result[0]
+                # Update the student table with the obtained class_id
+                self.cursor.execute(update_student_sql, (class_id, student_id))
+                self.connection.commit()  # Commit the transaction
+                return True
+            else:
+                print(f"Class name '{class_name}' not found.")
+                return False
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+
+    def change_student_password(self, password,student_id):
+        sql = """
+                   UPDATE student 
+                   SET password = %s 
+                   WHERE student_id = %s;
+                   """
+        try:
+            self.cursor.execute(sql, (password, student_id))
+            self.connection.commit()  # Commit the transaction
+            print(f"success happen.")
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            print(f'there is an error happen.')
+            return False
 admin_db_configuration = AdminDbConfiguration()
 
 
