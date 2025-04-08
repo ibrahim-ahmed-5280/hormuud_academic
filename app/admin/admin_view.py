@@ -5,6 +5,43 @@ from app.admin.admin_model import AdminModel, AdminDatabase, check_admin_model_c
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
+
+@app.route('/')
+def signin_page():
+    return render_template('admin/signin.html')
+
+@app.route('/admin_login',methods=['POST'])
+def admin_login():
+    data = request.get_json()
+
+    email = data.get('email', '').strip()
+    password = data.get('password', '').strip()
+
+    # Initialize response
+    response = {'error': '','message': ''}
+
+    # Validate Email and Password
+    if not email:
+        response['error'] = 'invalid_email'
+        response['message']='Please enter an email.'
+        return jsonify(response)
+
+
+    if not password:
+        response['error'] = 'invalid_password'
+        response['message'] = 'Please enter password.'
+        return jsonify(response)
+    connection_status, admin_model = check_admin_model_connection()
+    if connection_status:
+        flag, result = admin_model.check_admin_login(email,password)
+        if flag:
+            print('hello')
+            return jsonify({'success': True})
+        return jsonify({'error': True,'message':'Email or password is incorrect.'})
+
+
+    return "Database connection failed."
+
 @app.route('/dashboard_page')
 def admin_dashboard_page():
     connection_status, admin_model = check_admin_model_connection()

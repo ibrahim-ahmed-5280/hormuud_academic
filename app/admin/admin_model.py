@@ -38,6 +38,27 @@ class AdminModel:
             print('Something went wrong! Internet connection or database connection. (Admin DB)')
             print(f'Error: {err}')
 
+    def check_admin_login(self,email,password):
+        sql = """
+                 SELECT * FROM admin_login 
+                 WHERE email = %s AND password = %s;"""
+
+        try:
+            self.cursor.execute(sql,(email,password))
+            result = self.cursor.fetchall()
+            if result:
+                print('Waa la helay Adeegsadaha.')
+                result = [dict(zip([key[0] for key in self.cursor.description], row)) for row in result]
+
+                return True, result
+            else:
+                print('Lama helin wax Adeegsade ah.')
+                return False, {}
+        except Exception as e:
+            print(f'Error: {e}')
+            return False, f'Error {e}.'
+
+
     # Garsame added this
     def save_faculty_registration(self,):
         try:
