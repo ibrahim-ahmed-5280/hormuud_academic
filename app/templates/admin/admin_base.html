@@ -60,10 +60,10 @@
             <!-- LOGO -->
             <a href="{{url_for('admin_dashboard_page')}}" class="logo text-center logo-light">
                 <span class="logo-lg">
-                    <img src="assets/images/logo.png" alt="" height="40">
+                    <img src="./../../static/images/logo.png" alt="" height="55">
                 </span>
                 <span class="logo-sm">
-                    <img src="assets/images/logo3.png" alt="" height="16">
+                    <img src="./../../static/images/logo.png" alt="" height="30">
                 </span>
             </a>
 
@@ -135,7 +135,7 @@
                     
                 
                     <li class="side-nav-item">
-                        <a href="pages-logout.html" class="side-nav-link">
+                        <a href="{{url_for('admin_logout')}}" class="side-nav-link">
                             <i class="mdi mdi-logout me-1"></i>
                             <span> Logout </span>
                         </a>
@@ -246,10 +246,10 @@
                             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown"
                                 href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <span class="account-user-avatar">
-                                    <img src="assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
+                                    <img src="./../../static/images/user_90_1744449787.png" alt="user-image" class="rounded-circle">
                                 </span>
                                 <span>
-                                    <span class="account-user-name">Abdisalan Abdukadir</span>
+                                    <span class="account-user-name">Abdirahim Garsame</span>
                                     <span class="account-position">Founder</span>
                                 </span>
                             </a>
@@ -274,7 +274,7 @@
 
 
                                 <!-- item-->
-                                <a href="pages-logout.html" class="dropdown-item notify-item">
+                                <a href="{{url_for('admin_logout')}}" class="dropdown-item notify-item">
                                     <i class="mdi mdi-logout me-1"></i>
                                     <span>Logout</span>
                                 </a>

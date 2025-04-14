@@ -266,7 +266,7 @@ function submit_registeration() {
 
     // Send to backend
     // Send to backend
-    fetch('/api/register', {
+    fetch('/register_student', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

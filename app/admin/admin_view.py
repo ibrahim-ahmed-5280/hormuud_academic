@@ -6,6 +6,11 @@ from datetime import datetime
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
+# Helper function to safely get session data
+def get_session_data():
+    """Retrieve session data."""
+    return session.get('email')
+
 @app.route('/')
 def signin_page():
     return render_template('admin/signin.html')
@@ -13,7 +18,7 @@ def signin_page():
 @app.route('/admin_login',methods=['POST'])
 def admin_login():
     data = request.get_json()
-
+    print(data)
     email = data.get('email', '').strip()
     password = data.get('password', '').strip()
 
@@ -35,15 +40,19 @@ def admin_login():
     if connection_status:
         flag, result = admin_model.check_admin_login(email,password)
         if flag:
-            print('hello')
+            print(result)
+            session['email'] = result[0].get('email')
             return jsonify({'success': True})
         return jsonify({'error': True,'message':'Email or password is incorrect.'})
 
 
-    return "Database connection failed."
+    return jsonify({'error': True, 'message': 'Database connection failed.'})
 
-@app.route('/dashboard_page')
+@app.route('/admin_dashboard')
 def admin_dashboard_page():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     connection_status, admin_model = check_admin_model_connection()
     if connection_status:
         student_counts = admin_model.count_students()
@@ -54,14 +63,23 @@ def admin_dashboard_page():
 
 @app.route('/register_student')
 def register_student_page():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     return render_template('admin/register_student.html')
 
 @app.route('/classes')
 def classes():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     return render_template('admin/classes.html')
 
 @app.route('/faculties')
 def faculties():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     # Initialize AdminModel with the existing DB connection
     print('Connecting to the database...')
     connection_status, admin_model = check_admin_model_connection()
@@ -135,6 +153,9 @@ def register_faculty():
 # Departments view
 @app.route('/departments')
 def departments():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     # Initialize AdminModel with the existing DB connection
     print('Connecting to the database...')
     connection_status, admin_model = check_admin_model_connection()
@@ -218,6 +239,9 @@ def register_departments():
 
 @app.route('/view_student')
 def view_student_page():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     print('Connecting to the database...')
     connection_status, admin_model = check_admin_model_connection()
     if connection_status:
@@ -249,16 +273,17 @@ def validate_date_of_birth(dob):
     try:
         dob_date = datetime.strptime(dob, '%Y-%m-%d').date()
         today = datetime.now().date()
-        min_age_date = today.replace(year=today.year - 120)  # Max 120 years old
+        max_age_date = today.replace(year=today.year - 80)
+        min_age_date = today.replace(year=today.year - 17)
 
-        if dob_date >= today or dob_date <= min_age_date:
+        if dob_date >= min_age_date or dob_date <= max_age_date:
             return False
         return True
     except:
         return False
 
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/register_student', methods=['POST'])
 def register_student():
     # First check if data exists and is in correct format
     if not request.is_json:
@@ -420,3 +445,10 @@ def change_password_user():
     except Exception as e:
         print(f"Error in change_password_user: {str(e)}")
         return jsonify({'success': False, 'message': 'An error occurred', 'field': 'general'}), 500
+
+@app.route('/admin_logout', methods=['POST', 'GET'])
+def admin_logout():
+    # Clear the session data
+    session.clear()
+    # Redirect to the signin page
+    return redirect(url_for('signin_page'))

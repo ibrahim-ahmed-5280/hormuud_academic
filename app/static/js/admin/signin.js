@@ -51,8 +51,10 @@ function submitting_login() {
     buttonText.textContent = 'Loading...';
     form.style.opacity = 0.8;
     inputs.forEach(input => input.disabled = true);
+    console.log(email , password);
+
     // Perform the fetch request
-    fetch('admin_login', {
+    fetch('/admin_login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -67,7 +69,7 @@ function submitting_login() {
                 form.style.opacity = 1;
                 inputs.forEach(input => input.disabled = false);
                 // Login Success - Redirect to dashboard page
-                window.location.href = 'dashboard_page';
+                window.location.href = 'admin_dashboard';
             } else {
                 form.style.opacity = 1;
                 inputs.forEach(input => input.disabled = false);
