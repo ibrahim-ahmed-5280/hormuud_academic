@@ -48,7 +48,7 @@ function submitting_login() {
     // Disable button and show spinner
     button.disabled = true;
     spinner.classList.remove('d-none');
-    buttonText.textContent = 'Loading...';
+    buttonText.textContent = 'Loging...';
     form.style.opacity = 0.8;
     inputs.forEach(input => input.disabled = true);
     // Perform the fetch request
@@ -67,7 +67,7 @@ function submitting_login() {
                 form.style.opacity = 1;
                 inputs.forEach(input => input.disabled = false);
                 // Login Success - Redirect to dashboard page
-                window.location.href = 'dashboard_page';
+                window.location.href = 'admin_dashboard_page';
             } else {
                 form.style.opacity = 1;
                 inputs.forEach(input => input.disabled = false);

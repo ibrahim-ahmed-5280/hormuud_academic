@@ -6,6 +6,11 @@ from datetime import datetime
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
+#Helper function to safely get session data
+def get_session_data():
+    """Retrieve session data."""
+    return session.get('email')
+
 @app.route('/')
 def signin_page():
     return render_template('admin/signin.html')
@@ -13,7 +18,6 @@ def signin_page():
 @app.route('/admin_login',methods=['POST'])
 def admin_login():
     data = request.get_json()
-
     email = data.get('email', '').strip()
     password = data.get('password', '').strip()
 
@@ -35,15 +39,25 @@ def admin_login():
     if connection_status:
         flag, result = admin_model.check_admin_login(email,password)
         if flag:
-            print('hello')
+            session['email'] = result[0].get('email')
             return jsonify({'success': True})
         return jsonify({'error': True,'message':'Email or password is incorrect.'})
 
 
     return "Database connection failed."
 
-@app.route('/dashboard_page')
+@app.route('/logout_admin')
+def logout_admin():
+    # Clear the session data
+    session.clear()
+    # Redirect to the signin page
+    return redirect(url_for('signin_page'))
+
+@app.route('/admin_dashboard_page')
 def admin_dashboard_page():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     connection_status, admin_model = check_admin_model_connection()
     if connection_status:
         student_counts = admin_model.count_students()
@@ -54,14 +68,23 @@ def admin_dashboard_page():
 
 @app.route('/register_student')
 def register_student_page():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     return render_template('admin/register_student.html')
 
 @app.route('/classes')
 def classes():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     return render_template('admin/classes.html')
 
 @app.route('/faculties')
 def faculties():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     # Initialize AdminModel with the existing DB connection
     print('Connecting to the database...')
     connection_status, admin_model = check_admin_model_connection()
@@ -135,6 +158,9 @@ def register_faculty():
 # Departments view
 @app.route('/departments')
 def departments():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     # Initialize AdminModel with the existing DB connection
     print('Connecting to the database...')
     connection_status, admin_model = check_admin_model_connection()
@@ -218,6 +244,9 @@ def register_departments():
 
 @app.route('/view_student')
 def view_student_page():
+    email = get_session_data()
+    if not email:
+        return redirect(url_for('signin_page'))
     print('Connecting to the database...')
     connection_status, admin_model = check_admin_model_connection()
     if connection_status:
